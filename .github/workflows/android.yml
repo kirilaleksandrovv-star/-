@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,12 +20,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Ensure Gradle Wrapper
+      - name: Install Gradle and generate wrapper
         run: |
-          if [ ! -f "./gradlew" ]; then
-            echo "gradlew missing - generating wrapper"
-            gradle wrapper
-          fi
+          curl -sL https://services.gradle.org/distributions/gradle-8.7-bin.zip -o gradle.zip
+          unzip -q gradle.zip
+          ./gradle-8.7/bin/gradle wrapper
           chmod +x ./gradlew
 
       - name: Build debug APK
